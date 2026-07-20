@@ -1,0 +1,6 @@
+ID,vendorCode,name,email,phone,gstin,city,country,isActive
+6ca59b9c-1886-45e5-a31c-89d75fac82be,V001,Dell India,sales@dell.com,+91-9876543210,29ABCDE1234F1Z5,Bengaluru,India,true
+94425ff2-84dd-4776-bce1-e017749ad322,V002,HP India,sales@hp.com,+91-9876543211,29ABCDE1234F1Z6,Chennai,India,true
+b7cc5480-c3ea-4b74-82a1-ec48cbd35c5d,V003,Lenovo India,sales@lenovo.com,+91-9876543212,29ABCDE1234F1Z7,Hyderabad,India,false
+e684a7d2-7642-42e2-bc4f-efa1e5f1f4c0,V004,Canon India,sales@canon.com,+91-9876543213,29ABCDE1234F1Z8,Mumbai,India,true
+fce82d2e-ed17-4888-937f-053fc5eb1cf4,V005,Epson India,sales@epson.com,+91-9876543214,29ABCDE1234F1Z9,Pune,India,true

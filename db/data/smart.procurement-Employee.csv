@@ -1,0 +1,4 @@
+employeeNumber,name,email,designation,joiningDate,department_ID
+EMP1001,Lata,lata@gmail.com,Developer,2021-05-07,199be2ee-395f-465c-baa5-52937c894f82      
+EMP1002,Rahul,rahul@gmail.com,Accountant,2017-07-08,b4d92c7f-05fb-4b29-ace6-b56f1ce64083 
+EMP1003,Nishanth,nishanth@gmail.com,Operations Head,2015-03-05,b9fff44a-8030-4fee-bbf2-1e9c9c9b734d  

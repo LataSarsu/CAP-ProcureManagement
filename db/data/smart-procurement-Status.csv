@@ -1,0 +1,8 @@
+code,description
+DRAFT, Draft
+SUBMITTED, Submitted
+MANAGER_APPROVED, Manager Approved
+FINANCE_APPROVED, Finance Approved
+PO_CREATED, PO Created
+COMPLETED, Completed
+REJECTED, Rejected

@@ -5,10 +5,14 @@ using {
     managed
 } from '@sap/cds/common';
 
-type Priority       : String enum {
-    LOW;
-    MEDIUM;
-    HIGH;
+// type Priority       : String enum {
+//     LOW;
+//     MEDIUM;
+//     HIGH;
+// }
+entity Priority {
+    key code        : String(10);
+        description : String(50);
 }
 
 entity Department : cuid, managed {
@@ -35,8 +39,8 @@ entity PurchaseRequest : cuid, managed {
     requestNo       : String(20);
     requestDate     : Date not null;
     requiredByDate  : Date;
-    status          : Status default 'DRAFT';
-    priority        : Priority default 'MEDIUM';
+    status          : Association to Status; //Status default 'DRAFT';
+    priority        : Association to Priority; //Priority default 'MEDIUM';
     totalAmount     : Decimal(15, 2);
     remarks         : String(255);
     employee        : Association to Employee not null;
@@ -64,14 +68,19 @@ entity PurchaseItem : cuid, managed {
     purchaseRequest : Association to PurchaseRequest not null;
 }
 
-type Status         : String enum {
-    DRAFT;
-    SUBMITTED;
-    MANAGER_APPROVED;
-    FINANCE_APPROVED;
-    PO_CREATED;
-    COMPLETED;
-    REJECTED;
+// type Status         : String enum {
+//     DRAFT;
+//     SUBMITTED;
+//     MANAGER_APPROVED;
+//     FINANCE_APPROVED;
+//     PO_CREATED;
+//     COMPLETED;
+//     REJECTED;
+// }
+
+entity Status {
+    key code        : String(20);
+        description : String(50);
 }
 
 entity Vendor : cuid, managed {
@@ -97,4 +106,12 @@ type ApprovalAction : String enum {
     APPROVED;
     REJECTED;
     RETURNED;
+}
+
+entity NumberRange {
+    key object        : String(20);
+        prefix        : String(10);
+        year          : Integer;
+        currentNumber : Integer;
+        startNumber   : Integer default 1;
 }

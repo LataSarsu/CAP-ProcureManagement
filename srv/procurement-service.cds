@@ -5,8 +5,26 @@ service ProcurementService {
     entity PurchaseRequests as projection on db.PurchaseRequest;
     entity PurchaseItems    as projection on db.PurchaseItem;
     entity Employees        as projection on db.Employee;
-     @readonly
+    entity NumberRanges     as projection on db.NumberRange;
+    entity Priorities       as projection on db.Priority;
+    entity Statuses         as projection on db.Status;
+
+    @readonly
     entity Departments      as projection on db.Department;
+
     entity Vendors          as projection on db.Vendor;
-    entity Currencies        as projection on db.Currency;
+    entity Currencies       as projection on db.Currency;
 }
+
+annotate ProcurementService.PurchaseRequests with @odata.draft.enabled;
+
+// annotate ProcurementService.PurchaseRequests with {
+//     priority @(
+//         Common.ValueListWithFixedValues: true,
+//         Common.Text                    : priority.description
+//     );
+//     status   @(
+//         Common.ValueListWithFixedValues: true,
+//         Common.Text                    : status.description
+//     );
+// };

@@ -33,6 +33,10 @@ annotate service.PurchaseRequests with @(
                 Value: priority_code,
             },
             {
+                $Type : 'UI.DataField',
+                Value : employee_ID,
+            },
+            {
                 $Type: 'UI.DataField',
                 Label: '{i18n>TotalAmount}',
                 Value: totalAmount,
@@ -49,13 +53,8 @@ annotate service.PurchaseRequests with @(
             },
             {
                 $Type: 'UI.DataField',
-                Value: employee_ID,
-                Label: '{i18n>EmployeeId}',
-            },
-            {
-                $Type: 'UI.DataField',
                 Value: vendor_ID,
-                Label: '{i18n>VendorId}',
+                Label: '{i18n>Vendor}',
             },
         ],
     },
@@ -108,7 +107,7 @@ annotate service.PurchaseRequests with @(
     UI.SelectionFields           : [
         priority_code,
         status_code,
-        employee_ID,
+        employee.employeeNumber,
     ],
     UI.HeaderInfo                : {
         Title         : {
@@ -122,20 +121,19 @@ annotate service.PurchaseRequests with @(
 
 annotate service.PurchaseRequests with {
     employee @(
-        Common.ValueList   : {
+        Common.ValueList               : {
             $Type         : 'Common.ValueListType',
             CollectionPath: 'Employees',
             Parameters    : [
                 {
-                    $Type            : 'Common.ValueListParameterInOut',
-                    LocalDataProperty: employeeNumber,
-                    ValueListProperty: 'employeeNumber',
-                    Label           : 'Employee Number',
+                    $Type            : 'Common.ValueListParameterIn',
+                    LocalDataProperty: employee_ID,
+                    ValueListProperty: 'ID',
                 },
                 {
-                    $Type            : 'Common.ValueListParameterDisplayOnly',
-                    LocalDataProperty: name,
-                    ValueListProperty: 'name',
+                    $Type            : 'Common.ValueListParameterOut',
+                    LocalDataProperty: employeeNumber,
+                    ValueListProperty: 'employeeNumber',
                 },
                 {
                     $Type            : 'Common.ValueListParameterDisplayOnly',
@@ -154,14 +152,46 @@ annotate service.PurchaseRequests with {
                 }
             ],
         },
-        Common.FieldControl: #Mandatory,
-        Common.Label       : '{i18n>Employee}',
-    //   Common.ValueListWithFixedValues : true,
+        Common.FieldControl            : #Mandatory,
+        Common.Label                   : '{i18n>Employee}',
+        //   Common.ValueListWithFixedValues : true,
+        Common.Text                    : employee.name,
+        Common.Text.@UI.TextArrangement: #TextOnly,
     )
 };
 
 annotate service.Employees with {
-    employeeNumber @Common.Label: '{i18n>Employee Number}';
+    employeeNumber @(
+        Common.Label       : '{i18n>Employee Number}',
+        Common.Text        : name,
+        Common.FieldControl: #Mandatory,
+        UI.MultiLineText   : true,
+        Common.ValueList : {
+            $Type : 'Common.ValueListType',
+            CollectionPath : 'Employees',
+            Parameters : [
+                {
+                    $Type : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : employeeNumber,
+                    ValueListProperty : 'employeeNumber',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'email',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'department/departmentCode',
+                },
+                {
+                    $Type : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'designation',
+                },
+            ],
+        },
+        Common.ValueListWithFixedValues : false,
+        Common.Text.@UI.TextArrangement : #TextOnly,
+    );
     name           @Common.Label: '{i18n>Name}';
     email          @Common.Label: '{i18n>Email}';
     designation    @Common.Label: '{i18n>Designation}';
@@ -170,34 +200,49 @@ annotate service.Employees with {
 
 
 annotate service.PurchaseRequests with {
-    vendor @Common.ValueList: {
-        $Type         : 'Common.ValueListType',
-        CollectionPath: 'Vendors',
-        Parameters    : [
-            {
-                $Type            : 'Common.ValueListParameterInOut',
-                LocalDataProperty: vendor_ID,
-                ValueListProperty: 'ID',
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'vendorCode',
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'name',
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'email',
-            },
-            {
-                $Type            : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty: 'phone',
-            },
-        ],
-    }
+    vendor @(
+        Common.ValueList               : {
+            $Type         : 'Common.ValueListType',
+            CollectionPath: 'Vendors',
+            Parameters    : [
+                {
+                    $Type            : 'Common.ValueListParameterIn',
+                    LocalDataProperty: vendor_ID,
+                    ValueListProperty: 'ID',
+                },
+                {
+                    $Type            : 'Common.ValueListParameterOut',
+                    LocalDataProperty: vendorCode,
+                    ValueListProperty: 'vendorCode',
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'name',
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'email',
+                },
+                {
+                    $Type            : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty: 'phone',
+                },
+            ],
+        },
+        Common.Text                    : vendor.name,
+        Common.ValueListWithFixedValues: false,
+        Common.Text.@UI.TextArrangement: #TextOnly,
+    //    Common.Text.@UI.TextArrangement: #TextFirst,
+    )
 };
+
+annotate service.Vendors with {
+    ID @(
+        Common.Text       : name,
+        UI.TextArrangement: #TextOnly
+    );
+};
+
 
 annotate service.PurchaseRequests with {
     currency @Common.ValueList: {
@@ -322,4 +367,42 @@ annotate service.PurchaseRequests with {
             ],
         }
     )
+};
+
+// annotate service.Vendors with {
+//     vendorCode @(
+//         Common.ValueList               : {
+//             $Type         : 'Common.ValueListType',
+//             CollectionPath: 'Vendors',
+//             Parameters    : [
+//                 {
+//                     $Type            : 'Common.ValueListParameterInOut',
+//                     LocalDataProperty: vendorCode,
+//                     ValueListProperty: 'vendorCode',
+//                 },
+//                 {
+//                     $Type            : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty: 'gstin',
+//                 },
+//                 {
+//                     $Type            : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty: 'email',
+//                 },
+//                 {
+//                     $Type            : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty: 'city',
+//                 },
+//                 {
+//                     $Type            : 'Common.ValueListParameterDisplayOnly',
+//                     ValueListProperty: 'country',
+//                 },
+//             ],
+//         },
+//         Common.ValueListWithFixedValues: false,
+//         Common.Text                    : name,
+//     )
+// };
+
+annotate service.Vendors with {
+    vendorCode @Common.SemanticKey;
 };

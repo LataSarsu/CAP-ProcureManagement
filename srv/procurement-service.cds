@@ -18,13 +18,3 @@ service ProcurementService {
 
 annotate ProcurementService.PurchaseRequests with @odata.draft.enabled;
 
-// annotate ProcurementService.PurchaseRequests with {
-//     priority @(
-//         Common.ValueListWithFixedValues: true,
-//         Common.Text                    : priority.description
-//     );
-//     status   @(
-//         Common.ValueListWithFixedValues: true,
-//         Common.Text                    : status.description
-//     );
-// };
